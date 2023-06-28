@@ -5,19 +5,27 @@ spring:
   profiles: default
 
 server:
-  port: 8010
+  port: 8761
 
 #This cfg is for single instance of eureka server, not recommended in production
 #Only for testing
 eureka:
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000
+
   instance:
-    hostname: eurekahost
+    hostname: eureka-server
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 90
+#    hostname: eurekahost
 
   client:
     register-with-eureka: false
     fetch-registry: false
+    registry-fetch-interval-seconds: 10
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://localhost:8761/eureka
 
 
 
